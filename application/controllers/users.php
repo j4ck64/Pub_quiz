@@ -46,6 +46,7 @@ class Users extends CI_Controller
 
     public function login()
     {
+        echo $this->session->userdata('user_id');
         $data['title'] = 'login';
 
         $this->form_validation->set_rules('email', 'email', 'required');
@@ -103,10 +104,8 @@ class Users extends CI_Controller
         redirect('users/login');
     }
 
-    public function save()
+    public function save_user_answer()
     {
-        if ($this->Questions_model->save_answer($this->session->userdata('user_id')) == "data inserted") {
-            // $this->load->helper('url');
-        }
+        $this->Questions_model->save_answer($this->session->userdata('user_id'));
     }
 }

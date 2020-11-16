@@ -14,8 +14,7 @@ function saveAnswer(id, anwser, slug) {
 
 	$.ajax({
 		type: "POST",
-		// url: "../users/save",
-		url: qualifyURL("users/save"),
+		url: qualifyURL("users/save_user_answer"),
 		data: { id: id, anwser: anwser, slug: slug },
 		cache: false,
 		async: true,
@@ -29,9 +28,9 @@ function saveAnswer(id, anwser, slug) {
 				window.location.href = "questions/" + slug;
 			}
 		},
+		// logs the url it tried to redirect to and error cause
 		error: function (e) {
 			var pathname = window.location.pathname;
-
 			console.log("failure: " + pathname + " " + e);
 		},
 	});

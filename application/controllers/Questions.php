@@ -50,20 +50,20 @@ class Questions extends CI_Controller
             }
             $data['anwsers'] = $this->Questions_model->get_anwsers($data['question']['id']);
 
-
             $this->load->view('questions/index', $data);
             $this->load->view('templates/header');
             // loads the corresponding posts view
             $this->load->view('templates/footer');
         }
     }
-   
+
     public function result()
     {
         $this->load->view('templates/header');
         $this->load->view('questions/result');
+        //SELECT a.answer, u.answer, q.question FROM `user_answer` u JOIN `question` q ON u.question_id = q.id JOIN `answer` a ON a.question_id = q.id WHERE u.user_id = 7
+
         // loads the corresponding posts view
         $this->load->view('templates/footer');
     }
- 
 }

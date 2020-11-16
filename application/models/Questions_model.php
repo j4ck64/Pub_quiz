@@ -41,23 +41,38 @@ class Questions_model extends CI_Model
 
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
-
+// saves the answers 
     public function save_answer($userId)
     {
-            if ($this->input->POST('id') == NULL) {
-                return"id is null";
+        if ($this->input->POST('id') == NULL) {
+            return "id is null";
+        } else {
+            $data = array(
+                'answer' => $this->input->post('anwser'),
+                'user_id' => $userId,
+                'question_id' => $this->input->post('id')
+            );
+            if ($this->db->insert('user_answer', $data)) {
+                return "data inserted";
             } else {
-                $data = array(
-                    'answer' => $this->input->post('anwser'),
-                    'user_id' => $userId,
-                    'question_id' => $this->input->post('id')
-                );
-                if($this->db->insert('user_answer', $data)){
-                    return "data inserted";
-                }
-                else{
-                    return"data not inserted";
-                }
-            }      
+                return "data not inserted";
+            }
+        }
+    }
+    // returns the users results based on the userid
+    public function get_results($userId)
+    {
+        return $this->db->query("SELECT
+        a.answer,
+        u.answer,
+        q.question
+    FROM
+        `user_answer` u
+    JOIN `question` q ON
+        u.question_id = q.id
+    JOIN `answer` a ON
+        a.question_id = q.id
+    WHERE
+        u.user_id =$userId");
     }
 }
