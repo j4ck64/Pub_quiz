@@ -1,0 +1,211 @@
+:root {
+	--base2: #eee8d5;
+	--base3: #fdf6e3;
+	--yellow: #b58900;
+}
+body {
+	background-color: #30404b;
+}
+.anwsers {
+	display: grid;
+	padding-top: 12rem;
+	grid-template-columns: [first] auto [line2] auto;
+	gap: 3rem;
+	/* row-gap: 3rem; */
+	list-style: none;
+	margin: 10px 0;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+	color: #009688;
+}
+.anwser-a {
+	
+	border-radius: 23px;
+	background-color: #ff0000;
+	width: calc(50% - -184px);
+	height: 18.375rem;
+	box-shadow: 0 2px 4px 0 rgba(29, 40, 53, 0.781);
+	color: #30404b;
+	text-emphasis: shadow 2px white;
+	font-size:8vw;
+}
+
+.anwser-b {
+	border-radius: 23px;
+	background-color: rgba(12, 183, 250, 0.904);
+	width: calc(50% - -184px);
+	height: 18.375rem;
+	box-shadow: 0 2px 4px 0 rgba(29, 40, 53, 0.781);
+}
+
+.container {
+	display: grid;
+	grid-template-columns: [first] auto [line2] minmax(11%) [line3] auto;
+	/* grid-template-columns: [first] auto [line2] 19% [line3] auto; */
+	grid-template-rows: [row1-start]auto [row1-end]auto third-line auto;
+	column-gap: 0.5rem;
+	row-gap: 3rem;
+	/* grid-auto-rows: 100px; */
+	grid-template-areas:
+		"header header header "
+		"welcome2 vline form"
+		". vline .";
+}
+header {
+	/* border: 3px solid green; */
+	grid-area: header;
+	height: 90px;
+}
+.welcome {
+	/* grid-area: "welcome2"; */
+	margin: auto;
+	width: 50%;
+	text-transform: uppercase;
+	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+	text-shadow: 2px 2px #ff0000;
+	color: cornsilk;
+	font-size: 23px;
+	text-align: center;
+	display: grid;
+	grid-template-columns: repeat(1, [col] auto);
+	grid-template-rows: repeat(2, [row] auto);
+	grid-auto-rows: auto;
+	grid-auto-columns: max-content(768);
+
+	gap: 1em;
+}
+.logo-login {
+	/* set img in middle */
+	display: block;
+	margin: 0 auto;
+	/* border: 3px solid green; */
+	text-align: center;
+	width: 250px;
+	height: auto;
+}
+.form {
+	/* center the form */
+	grid-auto-columns: max-content(768);
+	margin: 0 auto;
+	/* padding: 50px; */
+	/* float: left; */
+	padding-top: 200px;
+}
+.vertical-line {
+	grid-area: vline;
+	border-left: 4.5px solid black;
+}
+
+input,
+label {
+	display: block;
+}
+label {
+	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+	color: cornsilk;
+	text-shadow: 2px 2px #ff0000;
+	text-transform: uppercase;
+}
+input[type="text"],
+input[type="password"] {
+	/* padding: 100 100; */
+	/* height: 30px; */
+	position: relative;
+	left: 0;
+	outline: none;
+	border: 1px solid #cdcdcd;
+	border-color: rgba(0, 0, 0, 0.15);
+	background-color: white;
+	/* font-size: 16px; */
+	width: 15rem;
+	font-size: 17px;
+	padding: 14px 16px;
+	width: 330px;
+}
+.email {
+	/* grid-template-columns: 1fr 1fr 1fr;
+  grid-column-start: col-start 2; */
+	grid-area: email;
+	padding-bottom: 50px;
+}
+.password {
+	grid-area: password;
+}
+.w3-circle {
+	color: #fff !important;
+	background-color: #009688 !important;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+	/* For desktop: */
+	.top-container {
+		display: grid;
+		grid-template-columns: repeat(0, 1fr);
+		grid-auto-rows: minmax(100px, auto);
+		/* grid-template-rows: [row1-start]auto [row1-end]auto third-line auto; */
+
+		grid-template-areas:
+			"welcome"
+			"logo"
+			"form";
+	}
+	header {
+		height: 0;
+	}
+	.vertical-line {
+		grid-column: 6/9;
+	}
+	.welcome {
+		grid-column: 0 / 3;
+		grid-row: 1;
+		grid-area: "welcome";
+		padding-top: 0px;
+	}
+
+	.form {
+		grid-column: 3/ 6;
+		grid-area: "form";
+		padding-top: 20px;
+		grid-row: 3;
+	}
+	.vertical-line {
+		grid-area: "vline";
+		display: block;
+		/* margin: 0 auto; */
+		border: 0px black;
+	}
+	.logo-login {
+		grid-area: "logo";
+		display: block;
+		margin: 0 auto;
+		height: auto;
+	}
+
+	label {
+		font-size: 12px;
+	}
+	input[type="text"] {
+		/* padding: 100 100; */
+		/* height: 20px; */
+		position: relative;
+		/* right:14px ; */
+		outline: none;
+		width: 12rem;
+		font-size: 17px;
+		padding: 14px 16px;
+		width: 330px;
+	}
+	.email {
+		/* grid-template-columns: 1fr 1fr 1fr;
+    grid-column-start: col-start 2; */
+		grid-area: email;
+		padding-bottom: 20px;
+	}
+	.password {
+		grid-area: password;
+	}
+	.w3-circle {
+		color: #fff !important;
+		background-color: #009688 !important;
+	}
+}
