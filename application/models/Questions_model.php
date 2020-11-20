@@ -41,7 +41,7 @@ class Questions_model extends CI_Model
 
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
-    // saves the answers 
+    // saves the user answer 
     public function save_answer($userId)
     {
         if ($this->input->POST('id') == NULL) {
@@ -59,11 +59,65 @@ class Questions_model extends CI_Model
             }
         }
     }
-    
     // returns the users results based on the userid
     public function get_results($userId)
     {
-        //     $results= $this->db->query("SELECT
+        //$userId = $this->session->userdata('user_id');
+        $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question, question.id");
+        $this->db->from('user_answer');
+        $this->db->join('question', "user_answer.question_id = question.id");
+        $this->db->join('answer', 'answer.question_id = question.id');
+        $this->db->where("user_answer.user_id='$userId'");
+        $query = $this->db->get();
+        $arr = $query->result();
+
+        $newArray = array();
+        $index = 0;
+        for ($index2 = 1; $index2 <= count($arr); $index2++) {
+
+            print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);
+            echo '<br/>';
+            echo '<br/>';
+
+            $row = array(
+                'id' => $arr[$index]->id,
+                'question' =>  $arr[$index]->question,
+                'user_answer' => $arr[$index]->user_answer,
+                'answer' => $arr[$index]->answer,
+            );
+            if ($index2 == count($arr)) {
+                print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+                echo '<br/>';
+                echo '<br/>';
+                array_push($newArray, $row);
+                break;
+            }
+            //ifquestion id  notequal to question id +1 and 
+            else if ($arr[$index]->id != $arr[$index2]->id) {
+                print_r("question id  notequal to question id +1");
+                echo '<br/>';
+
+                if ($arr[$index]->question !== $arr[$index2]->question) {
+                    print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+                    echo '<br/>';
+                    echo '<br/>';
+                    array_push($newArray, $row);
+                }
+            }
+            $index++;
+            print_r($index);
+        }
+        //print_r($newArray);
+        // $object = (object) $newArray;
+
+        
+        //the line below is taken from https://stackoverflow.com/a/1869147
+        //this is converting the array into an object
+        $object = json_decode(json_encode($newArray), FALSE);
+        print_r($object);
+        return $object;
+        // SQL statement  
+        //    "SELECT
         //     a.answer,
         //     u.answer as 'user_answer',
         //     q.question
@@ -74,23 +128,6 @@ class Questions_model extends CI_Model
         // JOIN `answer` a ON
         //     a.question_id = q.id
         // WHERE
-        //     u.user_id ='?'",$userId)->result();
-
-        // return $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question")
-        // ->from('user_answer')
-        // ->join('question', "user_answer.question_id = question.id")
-        // ->join('answer', 'answer.question_id = question.id')
-        // ->where("user_answer.user_id='$userId'")
-        // ->get()
-        // ->result();
-       
-        $userId = $this->session->userdata('user_id');
-        $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question");
-        $this->db->from('user_answer');
-        $this->db->join('question', "user_answer.question_id = question.id");
-        $this->db->join('answer', 'answer.question_id = question.id');
-        $this->db->where("user_answer.user_id='$userId'");
-        $query = $this->db->get();
-        return $query->result();
+        //     u.user_id ='?'
     }
 }

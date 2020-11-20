@@ -60,11 +60,97 @@ class Questions extends CI_Controller
     public function result()
     {
         print_r($this->session->userdata('user_id'));
-        $questions =  $this->Questions_model->get_results($this->session->userdata('user_id'));
+        // $questions =  $this->Questions_model->get_results($this->session->userdata('user_id'));
         // echo $questions;
-        print_r($questions);
-        // echo $questions;
-        $data['questions']=$this->Questions_model->get_results($this->session->userdata('user_id'));;
+        $data['questions'] = $this->Questions_model->get_results($this->session->userdata('user_id'));
+        //  print_r($data['questions']);
+        $arr = $data['questions'];
+        $id = array();
+        $newArray = array();
+        // for ($index = 0; $index < count($arr);) {
+        //     array_push($id, $arr[$index]->id);
+
+
+
+        //     for ($index2 = 1; $index2 <= count($arr); $index2++) {
+
+        //         print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);
+        //         echo '<br/>';
+        //         echo '<br/>';
+
+        //         $row = array(
+        //             'id' => $arr[$index]->id,
+        //             'question' =>  $arr[$index]->question,
+        //             'user_answer' => $arr[$index]->user_answer,
+        //             'answer' => $arr[$index]->answer,
+        //         );
+        //         if ($index2 == count($arr)) {
+        //             array_push($newArray, $row);
+        //             break;
+        //         }
+        //         //ifquestion id  notequal to question id +1 and 
+        //         else if ($arr[$index]->id != $arr[$index2]->id) {
+        //             print_r("question id  notequal to question id +1");
+        //             echo '<br/>';
+
+        //             if ($arr[$index]->question !== $arr[$index2]->question) {
+
+        //                 print_r("adding to array");
+        //                 echo '<br/>';
+        //                 array_push($newArray, $row);
+        //             }
+        //         }
+        //         $index++;
+        //         print_r($index);
+        //     }
+        //     break;
+        // }
+
+
+
+        // $index = 0;
+        // for ($index2 = 1; $index2 <= count($arr); $index2++) {
+
+        //     print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);
+        //     echo '<br/>';
+        //     echo '<br/>';
+
+        //     $row = array(
+        //         'id' => $arr[$index]->id,
+        //         'question' =>  $arr[$index]->question,
+        //         'user_answer' => $arr[$index]->user_answer,
+        //         'answer' => $arr[$index]->answer,
+        //     );
+        //     if ($index2 == count($arr)) {
+        //         print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+        //         echo '<br/>';
+        //         echo '<br/>';
+        //         array_push($newArray, $row);
+        //         break;
+        //     }
+        //     //ifquestion id  notequal to question id +1 and 
+        //     else if ($arr[$index]->id != $arr[$index2]->id) {
+        //         print_r("question id  notequal to question id +1");
+        //         echo '<br/>';
+
+        //         if ($arr[$index]->question !== $arr[$index2]->question) {
+        //             print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+        //             echo '<br/>';
+        //             echo '<br/>';
+        //             array_push($newArray, $row);
+        //         }
+        //     }
+        //     $index++;
+        //     print_r($index);
+        // }
+
+
+
+        //sorts the array of question_id by removing the duplicates
+        //if current_question != previous question add previous question row to array
+        // print_r(array_unique($id));
+        print_r($newArray);
+
         $this->load->view('templates/header');
         $this->load->view('questions/result', $data);
         //SELECT a.answer, u.answer, q.question FROM `user_answer` u JOIN `question` q ON u.question_id = q.id JOIN `answer` a ON a.question_id = q.id WHERE u.user_id = 7
