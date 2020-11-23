@@ -8,11 +8,6 @@ class Questions extends CI_Controller
             redirect('users/login');
         }
         $data['question'] = $this->Questions_model->get_questions('q-1');
-        // print_r($data['question']['id']);     
-        //    echo '<br/>';
-
-        // print('count'.count($data['question']));
-
         //check if their is  more than 1 question
         if (count($data['question']) > 1) {
 
@@ -59,102 +54,53 @@ class Questions extends CI_Controller
 
     public function result()
     {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users/login');
+        }
         print_r($this->session->userdata('user_id'));
-        // $questions =  $this->Questions_model->get_results($this->session->userdata('user_id'));
-        // echo $questions;
         $data['questions'] = $this->Questions_model->get_results($this->session->userdata('user_id'));
-        //  print_r($data['questions']);
-        $arr = $data['questions'];
-        $id = array();
-        $newArray = array();
-        // for ($index = 0; $index < count($arr);) {
-        //     array_push($id, $arr[$index]->id);
-
-
-
-        //     for ($index2 = 1; $index2 <= count($arr); $index2++) {
-
-        //         print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);
-        //         echo '<br/>';
-        //         echo '<br/>';
-
-        //         $row = array(
-        //             'id' => $arr[$index]->id,
-        //             'question' =>  $arr[$index]->question,
-        //             'user_answer' => $arr[$index]->user_answer,
-        //             'answer' => $arr[$index]->answer,
-        //         );
-        //         if ($index2 == count($arr)) {
-        //             array_push($newArray, $row);
-        //             break;
-        //         }
-        //         //ifquestion id  notequal to question id +1 and 
-        //         else if ($arr[$index]->id != $arr[$index2]->id) {
-        //             print_r("question id  notequal to question id +1");
-        //             echo '<br/>';
-
-        //             if ($arr[$index]->question !== $arr[$index2]->question) {
-
-        //                 print_r("adding to array");
-        //                 echo '<br/>';
-        //                 array_push($newArray, $row);
-        //             }
-        //         }
-        //         $index++;
-        //         print_r($index);
-        //     }
-        //     break;
-        // }
-
-
-
-        // $index = 0;
-        // for ($index2 = 1; $index2 <= count($arr); $index2++) {
-
-        //     print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);
-        //     echo '<br/>';
-        //     echo '<br/>';
-
-        //     $row = array(
-        //         'id' => $arr[$index]->id,
-        //         'question' =>  $arr[$index]->question,
-        //         'user_answer' => $arr[$index]->user_answer,
-        //         'answer' => $arr[$index]->answer,
-        //     );
-        //     if ($index2 == count($arr)) {
-        //         print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
-        //         echo '<br/>';
-        //         echo '<br/>';
-        //         array_push($newArray, $row);
-        //         break;
-        //     }
-        //     //ifquestion id  notequal to question id +1 and 
-        //     else if ($arr[$index]->id != $arr[$index2]->id) {
-        //         print_r("question id  notequal to question id +1");
-        //         echo '<br/>';
-
-        //         if ($arr[$index]->question !== $arr[$index2]->question) {
-        //             print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
-        //             echo '<br/>';
-        //             echo '<br/>';
-        //             array_push($newArray, $row);
-        //         }
-        //     }
-        //     $index++;
-        //     print_r($index);
-        // }
-
-
-
-        //sorts the array of question_id by removing the duplicates
-        //if current_question != previous question add previous question row to array
-        // print_r(array_unique($id));
-        print_r($newArray);
-
         $this->load->view('templates/header');
         $this->load->view('questions/result', $data);
-        //SELECT a.answer, u.answer, q.question FROM `user_answer` u JOIN `question` q ON u.question_id = q.id JOIN `answer` a ON a.question_id = q.id WHERE u.user_id = 7
+        // loads the corresponding posts view
+        $this->load->view('templates/footer');
+    }
 
+    public function delete_question(){
+        $id = $this->input->get("id");
+        $slug= $this->input->get("slug");
+
+        $this->Questions_model->delete_question($id);
+        print_r('question deleted id:'.$id." slug: ".$slug);
+        // redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function browse(){
+        $data['title']="Edit Questions";
+        $data['questions'] = $this->Questions_model->get_questions();
+
+        if($this->delete_question()){
+            //  redirect($_SERVER['HTTP_REFERER']);  
+        }
+        
+        
+        $this->load->view('templates/header');
+        $this->load->view('questions/browse', $data);
+        // loads the corresponding posts view
+        $this->load->view('templates/footer');
+    }
+
+    
+
+    public function edit($slug=null){
+        $data['title']="Edit Questions";
+        $data['questions'] = $this->Questions_model->get_questions($slug);
+
+        $id = $this->input->get('id');
+        $this->Questions_model->delete_question($id);
+        // redirect($_SERVER['HTTP_REFERER']);  
+
+        $this->load->view('templates/header');
+        $this->load->view('questions/edit', $data);
         // loads the corresponding posts view
         $this->load->view('templates/footer');
     }

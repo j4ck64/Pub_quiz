@@ -14,16 +14,30 @@ class User_model extends CI_Model
     }
 
     // log in user
-    public function login($email,$password){
+    public function login($email, $password)
+    {
         //validate
-        $this->db->where('email',$email);
-        $this->db->where('password',$password);
+        $this->db->where('email', $email);
+        $this->db->where('password', $password);
 
-        $result =$this->db->get('user');
+        $result = $this->db->get('user');
 
-        if($result->num_rows()==1){
+        //verify the user row exists
+        if ($result->num_rows() == 1) {
             return $result->row(0)->id;
-        }else {
+        } else {
+            return false;
+        }
+    }
+    //verify the user is admin or standard user
+    public function verify_user_privilages($email)
+    {
+        $this->db->where('email', $email);
+        $result = $this->db->get('user');
+        $result = $result->row_array();
+        if ($result['is_admin']) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -39,5 +53,4 @@ class User_model extends CI_Model
             return false;
         }
     }
-
 }

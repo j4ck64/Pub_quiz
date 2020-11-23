@@ -53,6 +53,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['users/login'] = 'users/login';
 $route['users/register'] = 'users/register';
 
+
+
+$route['questions/browse'] = 'questions/browse';
+$route['questions/edit/(:any)'] = 'questions/edit/$1';
+
 $route['questions/result'] = 'questions/result/$1';
 $route['questions/(:any)'] = 'questions/view/$1';
 $route['questions']='questions/index';

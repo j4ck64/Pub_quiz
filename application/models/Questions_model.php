@@ -20,6 +20,25 @@ class Questions_model extends CI_Model
         return $query->row_array();
     }
 
+    public function delete_question($id)
+    {
+
+        $this->db->delete('user_answer', array('question_id' => $id)); 
+        $this->db->delete('answer', array('question_id' => $id));
+        $this->db->delete('question', array('id' => $id));
+
+
+        // $tables = array('user_answer', 'answer');
+        // $this->db->where('question_id' , $id);
+        // $this->db->delete($tables);
+
+
+        // $this->db->where('ID', $id);
+        // print_r($id);
+        // $this->db->delete('question');
+        return;
+    }
+
     public function get_anwsers($id = FALSE)
     {
         if ($id === FALSE) {
@@ -59,10 +78,10 @@ class Questions_model extends CI_Model
             }
         }
     }
+
     // returns the users results based on the userid
     public function get_results($userId)
     {
-        //$userId = $this->session->userdata('user_id');
         $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question, question.id");
         $this->db->from('user_answer');
         $this->db->join('question', "user_answer.question_id = question.id");
@@ -107,27 +126,10 @@ class Questions_model extends CI_Model
             $index++;
             print_r($index);
         }
-        //print_r($newArray);
-        // $object = (object) $newArray;
-
-        
         //the line below is taken from https://stackoverflow.com/a/1869147
         //this is converting the array into an object
         $object = json_decode(json_encode($newArray), FALSE);
         print_r($object);
         return $object;
-        // SQL statement  
-        //    "SELECT
-        //     a.answer,
-        //     u.answer as 'user_answer',
-        //     q.question
-        // FROM
-        //     `user_answer` u
-        // JOIN `question` q ON
-        //     u.question_id = q.id
-        // JOIN `answer` a ON
-        //     a.question_id = q.id
-        // WHERE
-        //     u.user_id ='?'
     }
 }

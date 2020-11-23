@@ -63,13 +63,13 @@ class Users extends CI_Controller
 
             //Login user
             $user_id = $this->User_model->login($email, $password);
-            // if their is a user id then it will create a session
+            // if the user exists then it will create a session
             if ($user_id) {
-                // die('Success');
                 // Create session
                 $user_data = array(
                     'user_id' => $user_id,
                     'email' => $email,
+                    'admin' => $this->User_model->verify_user_privilages($email),
                     'logged_in' => true
                 );
                 $this->session->set_userdata($user_data);
@@ -78,8 +78,13 @@ class Users extends CI_Controller
                     'user_loggedin',
                     'You are now logged in'
                 );
-                // redirect to questions
-                redirect('questions');
+                //If the user is an admin
+                if ($this->session->userdata("admin")) {
+                    redirect('questions/browse');
+                } else {
+                    // redirect to questions
+                    redirect('questions');
+                }
             } else {
                 $this->session->set_flashdata(
                     'login_failed',
@@ -94,7 +99,7 @@ class Users extends CI_Controller
     {
         // unset user data
 
-        $array_items = array('user_id' => '', 'username' => '','logged_in' => '');
+        $array_items = array('user_id' => '', 'username' => '', 'logged_in' => '', 'admin' => '');
         $this->session->unset_userdata($array_items);
 
         // $this->session->unset_userdata('logged_in');
