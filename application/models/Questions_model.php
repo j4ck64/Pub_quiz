@@ -12,55 +12,46 @@ class Questions_model extends CI_Model
         // $query->order_by("publish_date", "DESC");
         return $query->result_array();
     }
-
-    public function checknextquestion($slug)
+    //this is used to verify if the next page should redirect to a question or the result page
+    public function check_next_question($slug)
     {
-        //insert this in checknextquestion
         //remove the q- and return the number
         $current_slug = str_replace("q-", "", $slug);
-        // $num = intval($current_slug) + 1;
-        // $possible_slug = 'q-' . $num;
-
-
         //validate
         $this->db->select('*');
         $this->db->from('question');
         $this->db->order_by("slug", "ASC");
         $this->db->order_by("publish_date", "DESC");
 
-        // $this->db->where("slug='$slug'");
-        // $result = $this->db->get('question');
         $query = $this->db->get();
         $result = $query->result_array();
+
         $count = count($result);
         $i = 0;
-        foreach ($result as $row) {
-            // print_r($i);
-            // echo '<br/>';
-            // print_r('ID: ' . $row['id']);
-            // echo '<br/>';
+        // print_r($result);
+        // echo '<br>';
+        // print_r($slug);
+        // echo '<br>';
 
-            if ($row['id'] == $current_slug) {
-                print_r($i + 1);
-                echo '<br/>';
-                if ($i+1 == $count) {
+        foreach ($result as $row) {
+            //if the row id equals the slug number i.e. the row number continue
+            if ($row['slug'] == $slug) {
+                // print_r('CURRENT SLUG: ' . $row['slug']);
+                // echo '<br>';
+                // print_r('$i: ' . $i . '== count' . $count);
+                //if $i +1 is equal to the row count return "result" setting slug to result
+                if ($i + 1 == $count) {
+                    print_r('slug==result');
                     return "result";
-                }
-                else{
-                    $i + 2;
-                    print_r('slug: '.$result[$i+1]['slug']);
-                    return $result[$i+1]['slug'];
+                } else {
+                    print_r('slug' . $result[$i + 1]['slug']);
+
+                    //return the next iteration of the question slug to proceed to the next question
+                    return $result[$i + 1]['slug'];
                 }
             }
-
             $i++;
         }
-        // //verify the user row exists
-        // if ($result->num_rows() >= 1) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
     }
 
     public function get_question($slug = FALSE)
@@ -89,12 +80,12 @@ class Questions_model extends CI_Model
 
     public function update_question()
     {
-        $array = array(
+        $data = array(
             'question' => trim($this->input->post('question'), " ")
         );
         //If array is not empty then proceed to execute query.
         //Else return. 
-        if (!empty($data)) {
+        if (!empty(trim($this->input->post('question'), " "))) {
             $this->db->where('id', $this->input->post('id'));
             return $this->db->update('question', $data);
         } else {

@@ -46,7 +46,7 @@ class Questions extends CI_Controller
         $slug = $data['question']['slug'];
         print_r('before' . $data['question']['slug']);
 
-        $data['question']['slug'] =  $this->Questions_model->checknextquestion($slug);
+        $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
         print_r('after' . $data['question']['slug']);
         $this->load->view('questions/index', $data);
         $this->load->view('templates/header');
@@ -60,10 +60,10 @@ class Questions extends CI_Controller
         if ($slug != null) {
             $data['question'] = $this->Questions_model->get_question($slug);
             //remove 'q-'
-            $slug = str_replace("q-", "", $slug);
+            // $slug = str_replace("q-", "", $slug);
             // // check if there's another question if not set the slug to next page
 
-            $data['question']['slug'] =  $this->Questions_model->checknextquestion($slug);
+            $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
 
             // if ($this->Questions_model->checknextquestion($slug . 1)) {
             //     $data['slug'] = $slug + 1;
