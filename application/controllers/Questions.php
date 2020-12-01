@@ -40,18 +40,25 @@ class Questions extends CI_Controller
     {
         $this->verify_user_signin();
         $data['question'] = $this->Questions_model->get_question();
+        if (empty($data['question'])) {
+            $this->load->view('templates/header');
+            $this->load->view('templates/footer');
 
-        $data['anwsers'] = $this->Questions_model->get_anwsers($data['question']['id']);
-        //check next question
-        $slug = $data['question']['slug'];
-        print_r('before' . $data['question']['slug']);
+            show_404();
+        } else {
+            $data['anwsers'] = $this->Questions_model->get_anwsers($data['question']['id']);
+            //check next question
+            $slug = $data['question']['slug'];
+            print_r('before' . $data['question']['slug']);
 
-        $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
-        print_r('after' . $data['question']['slug']);
-        $this->load->view('questions/index', $data);
-        $this->load->view('templates/header');
-        // loads the corresponding posts view
-        $this->load->view('templates/footer');
+            $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
+            print_r('after' . $data['question']['slug']);
+
+            $this->load->view('questions/index', $data);
+            $this->load->view('templates/header');
+            // loads the corresponding posts view
+            $this->load->view('templates/footer');
+        }
     }
 
     public function view($slug = NULL)
@@ -135,9 +142,12 @@ class Questions extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('users/login');
         }
-        $this->Questions_model->update_question();
-        $this->Questions_model->update_anwsers();
-        redirect("questions/browse");
+        $this->form_validation->set_rules('password', 'question', 'min_length[1]|max_length[50]');
+        if ($this->form_validation->run()) {
+            $this->Questions_model->update_question();
+            $this->Questions_model->update_anwsers();
+            redirect("questions/browse");
+        }
         // echo $this->db->last_query();
     }
 

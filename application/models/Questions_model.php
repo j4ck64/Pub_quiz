@@ -28,24 +28,14 @@ class Questions_model extends CI_Model
 
         $count = count($result);
         $i = 0;
-        // print_r($result);
-        // echo '<br>';
-        // print_r($slug);
-        // echo '<br>';
 
         foreach ($result as $row) {
             //if the row id equals the slug number i.e. the row number continue
             if ($row['slug'] == $slug) {
-                // print_r('CURRENT SLUG: ' . $row['slug']);
-                // echo '<br>';
-                // print_r('$i: ' . $i . '== count' . $count);
                 //if $i +1 is equal to the row count return "result" setting slug to result
                 if ($i + 1 == $count) {
-                    print_r('slug==result');
                     return "result";
                 } else {
-                    print_r('slug' . $result[$i + 1]['slug']);
-
                     //return the next iteration of the question slug to proceed to the next question
                     return $result[$i + 1]['slug'];
                 }
@@ -208,6 +198,7 @@ class Questions_model extends CI_Model
     // returns the users results based on the userid
     public function get_results($userId)
     {
+        //get the question ,user anwser, question anwser
         $this->db->select("anwser.anwser, user_anwser.anwser as 'user_anwser', question.question, question.id");
         $this->db->from('user_anwser');
         $this->db->join('question', "user_anwser.question_id = question.id");
@@ -218,6 +209,7 @@ class Questions_model extends CI_Model
 
         $newArray = array();
         $index = 0;
+        // loop the array
         for ($index2 = 1; $index2 <= count($arr); $index2++) {
 
             print_r('checking second loop is looping index : ' . count($arr) . $index . " index 2: " . $index2);

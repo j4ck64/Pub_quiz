@@ -41,7 +41,7 @@ CREATE TABLE `anwser` (
 --
 
 INSERT INTO `anwser` (`id`, `anwser`, `question_id`, `dummy_anwser`, `dummy_anwser2`, `dummy_anwser3`) VALUES
-(1, '2 test 4', 1, '3', '4', '5'),
+(1, '2', 1, '3', '4', '5'),
 (2, '4', 2, '5', '6', '8'),
 (3, 'Berlin', 3, 'Moscow ', 'Madrid', 'Lisbon'),
 (4, '1796', 4, '1911', '1889', '1945');
@@ -64,7 +64,7 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `question`, `slug`, `publish_date`) VALUES
-(1, '1+1 test4', 'q-1', '2020-11-23 19:57:54'),
+(1, '1+1', 'q-1', '2020-11-23 19:57:54'),
 (2, '2+2', 'q-2', '2020-11-23 19:57:54'),
 (3, 'What is the capital of Germany? ', 'q-4', '2020-11-26 00:44:49'),
 (4, 'When was the smallpox vaccine created?', 'q-5', '2020-11-26 00:49:51');

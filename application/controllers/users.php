@@ -7,14 +7,14 @@ class Users extends CI_Controller
         $data['title'] = 'register';
 
         $this->form_validation->set_rules('email', 'email', 'required|callback_check_email_exists');
-        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required|min_length[8]|max_length[20]');
         $this->form_validation->set_rules('password2', 'Confirm password', 'matches[password]');
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header');
             $this->load->view('users/register', $data);
             $this->load->view('templates/footer');
         } else {
-            // die('continue');
             //encrypt password
             $enc_password = md5($this->input->post('password'));
 
