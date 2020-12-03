@@ -54,8 +54,8 @@ class Questions extends CI_Controller
             $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
             print_r('after' . $data['question']['slug']);
 
-            $this->load->view('questions/index', $data);
             $this->load->view('templates/header');
+            $this->load->view('questions/index', $data);           
             // loads the corresponding posts view
             $this->load->view('templates/footer');
         }
@@ -169,7 +169,7 @@ class Questions extends CI_Controller
         $this->form_validation->set_rules('dummy-anwser3', 'dummy-anwser3', 'required');
 
         if ($this->form_validation->run() === FALSE) {
-            $id = $this->Questions_model->get_last_question_index();
+            $id = $this->Questions_model->get_last_question_id();
             print_r($id);
             $id = $id++;
             $slug = 'q-' . $id;
@@ -178,10 +178,8 @@ class Questions extends CI_Controller
             // loads the corresponding posts view
             $this->load->view('templates/footer');
         } else {
-            $last_row = $this->Questions_model->get_last_question_index();
-            // $id = $id++;
-            $next_row = $last_row + 1;
-            $slug = 'q-' . $next_row;
+            $last_row = $this->Questions_model->get_last_question_id();
+            echo $last_row;
             $question_id = $this->Questions_model->insert_question($last_row);
             //echo $this->db->last_query();
             $this->Questions_model->insert_anwsers($question_id);

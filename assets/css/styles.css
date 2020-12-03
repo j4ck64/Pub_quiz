@@ -7,7 +7,7 @@
 body {
 	background-color: #30404b;
 }
-.form-group{
+.form-group {
 	display: grid;
 	align-items: center;
 	justify-content: center;
@@ -47,9 +47,9 @@ h2 {
 	stroke: black;
 	outline: none;
 	border-radius: 23px;
-	
+
 	left: 50%;
-    margin-right: -50%;
+	margin-right: -50%;
 }
 .browse-question .btn-edit {
 	background: linear-gradient(to bottom, #fffffee5, #27272717);
@@ -209,8 +209,6 @@ h2 {
 }
 input[type="text"],
 input[type="password"] {
-
-
 	/* padding: 100 100; */
 	/* height: 30px; */
 	position: relative;
@@ -238,13 +236,166 @@ input[type="password"] {
 	color: #fff !important;
 	background-color: #009688 !important;
 }
+
+/* taken from 
+https://divtable.com/table-styler/
+  */
+table.results {
+	border: 1px solid #1C6EA4;
+	background-color: #EEEEEE;
+	width: 100%;
+	height: 200px;
+	text-align: center;
+	border-collapse: collapse;
+  }
+  table.results td, table.results th {
+	border: 1px solid #AAAAAA;
+	padding: 9px 8px;
+  }
+  table.results tbody td {
+	font-size: 13px;
+  }
+  table.results tr:nth-child(even) {
+	background: #D0E4F5;
+  }
+  table.results thead {
+	background: #1C6EA4;
+	background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+	background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+	background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+	border-bottom: 2px solid #444444;
+  }
+  table.results thead th {
+	font-size: 15px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	border-left: 2px solid #D0E4F5;
+  }
+  table.results thead th:first-child {
+	border-left: none;
+  }
+  
+  table.results tfoot {
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background: #D0E4F5;
+	background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+	background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+	background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+	border-top: 2px solid #444444;
+  }
+  table.results tfoot td {
+	font-size: 14px;
+  }
+  table.results tfoot .links {
+	text-align: right;
+  }
+  table.results tfoot .links a{
+	display: inline-block;
+	background: #1C6EA4;
+	color: #FFFFFF;
+	padding: 2px 8px;
+	border-radius: 5px;
+  }
+
 footer {
 	margin-top: 2rem;
-    background: var(#333);
-    color: var(#fff);
-    text-align: center;
+	background: #333;
+	color: #fff;
+	text-align: center;
 	padding: 1rem;
 }
+/*
+nav bar taken from <!-- Tutorial https://youtu.be/gt8zOLQ8A0w --> 
+ */
+ header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 100px;
+	background: #262626;
+	width: 100%;
+	box-sizing: border-box;
+  }
+  header .logo {
+	color: #fff;
+	height: 50px;
+	line-height: 50px;
+	font-size: 24px;
+	float: left;
+	font-weight: bold;
+  }
+  header nav {
+	float: right;
+  }
+  header nav ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+  }
+  header nav ul li {
+	list-style: none;
+  }
+  header nav ul li a {
+	height: 50px;
+	line-height: 50px;
+	padding: 0 20px;
+	color: red;
+	text-decoration: none;
+	display: block;
+  }
+  
+  header nav ul li a:hover,
+  header nav ul li a.active {
+	color: #fff;
+	background: #2196f3;
+  }
+  
+  .menu-toggle {
+	color: #fff;
+	float: right;
+	/* line height seems to place the icon in the middle */
+	line-height: 50px;
+	font-size: 24px;
+	cursor: pointer;
+	/* hides the icon */
+	display: none;
+  }
+  /* nav bar */
+  @media (max-width: 991px) {
+	header {
+	  padding: 0 20px;
+	}
+	.menu-toggle {
+	  display: block;
+	}
+	header nav {
+	  /* display: none; */
+	  position: absolute;
+	  width: 100%;
+	  height: calc(100vh - 50px);
+	  background: #333;
+	  top: 50px;
+	  /*Left -100 places the nav bar out of side */
+	  left: -100%;
+	  /* Transiton is fucking cool! Use it more often */
+	  transition: 0.5s;
+	}
+	header nav.active {
+	  left: 0;
+	}
+	header nav ul {
+	  display: block;
+	  text-align: center;
+	}
+	header nav ul li a {
+	  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	}
+  }
+
+
 
 /* Media Queries */
 @media (max-width: 768px) {
@@ -274,7 +425,7 @@ footer {
 	}
 
 	.form {
-		grid-column: 3/ 6;
+		/* grid-column: 3/ 6; */
 		grid-area: "form";
 		padding-top: 20px;
 		grid-row: 3;

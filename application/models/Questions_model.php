@@ -95,13 +95,15 @@ class Questions_model extends CI_Model
         return $this->db->insert('anwser', $data);
     }
 
-    public function get_last_question_index()
+    public function get_last_question_id()
     {
         $this->db->select('*');
         $this->db->from('question');
+        $this->db->order_by('id','desc');
         $query = $this->db->get();
         $result = $query->result_array();
-        return $index = count($result);
+        return $result[0]['id'];
+        // return $index = count($result);
         // $index = intval($index)-1;
         // // print_r($result[count($result)]['question_id']);
         // return intval($result[$index]['id']);
@@ -195,11 +197,11 @@ class Questions_model extends CI_Model
         }
     }
 
-    // returns the users results based on the userid
+    // returns the updated users results based on the userid
     public function get_results($userId)
     {
         //get the question ,user anwser, question anwser
-        $this->db->select("anwser.anwser, user_anwser.anwser as 'user_anwser', question.question, question.id");
+        $this->db->select("anwser.anwser,user_anwser.id as 'user_anwser_id', user_anwser.anwser as 'user_anwser', question.question, question.id");
         $this->db->from('user_anwser');
         $this->db->join('question', "user_anwser.question_id = question.id");
         $this->db->join('anwser', 'anwser.question_id = question.id');
@@ -217,11 +219,19 @@ class Questions_model extends CI_Model
             echo '<br/>';
 
             $row = array(
+                'user_anwser_id' => $arr[$index]->user_anwser_id,
                 'id' => $arr[$index]->id,
                 'question' =>  $arr[$index]->question,
                 'user_anwser' => $arr[$index]->user_anwser,
                 'anwser' => $arr[$index]->anwser,
             );
+            //if user anwser equals question anwser add is correct to row array
+            if ($arr[$index]->user_anwser == $arr[$index]->anwser) {
+                $row += ["is_correct" => '✅'];
+            } else {
+                $row += ["is_correct" => '❎'];
+            }
+            //if index2 is equal to the array count add the last row to the array 'new array'
             if ($index2 == count($arr)) {
                 print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_anwser . ' anwser->' . $arr[$index]->anwser . ']' . $index . " index 2: " . $index2);
                 echo '<br/>';
@@ -229,7 +239,7 @@ class Questions_model extends CI_Model
                 array_push($newArray, $row);
                 break;
             }
-            //ifquestion id  notequal to question id +1(the next question) and 
+            //if question id  notequal to question id +1(the next question) and 
             else if ($arr[$index]->id != $arr[$index2]->id) {
                 print_r("question id  notequal to question id +1");
                 echo '<br/>';
