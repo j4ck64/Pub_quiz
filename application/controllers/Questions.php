@@ -39,23 +39,25 @@ class Questions extends CI_Controller
     public function index()
     {
         $this->verify_user_signin();
-        $data['question'] = $this->Questions_model->get_question();
+        $questions_model = new Questions_model();
+
+        $data['question'] =  $questions_model->get_question();
         if (empty($data['question'])) {
             $this->load->view('templates/header');
             $this->load->view('templates/footer');
 
             show_404();
         } else {
-            $data['anwsers'] = $this->Questions_model->get_anwsers($data['question']['id']);
+            $data['anwsers'] = $questions_model->get_anwsers($data['question']['id']);
             //check next question
             $slug = $data['question']['slug'];
             print_r('before' . $data['question']['slug']);
 
-            $data['question']['slug'] =  $this->Questions_model->check_next_question($slug);
+            $data['question']['slug'] =  $questions_model->check_next_question($slug);
             print_r('after' . $data['question']['slug']);
 
             $this->load->view('templates/header');
-            $this->load->view('questions/index', $data);           
+            $this->load->view('questions/index', $data);
             // loads the corresponding posts view
             $this->load->view('templates/footer');
         }
@@ -79,8 +81,9 @@ class Questions extends CI_Controller
             // }
             $data['anwsers'] = $this->Questions_model->get_anwsers($data['question']['id']);
 
-            $this->load->view('questions/index', $data);
+
             $this->load->view('templates/header');
+            $this->load->view('questions/index', $data);
             // loads the corresponding posts view
             $this->load->view('templates/footer');
         }
@@ -90,6 +93,7 @@ class Questions extends CI_Controller
     {
         $this->verify_user_signin();
         // print_r($this->session->userdata('user_id'));
+
         $data['questions'] = $this->Questions_model->get_results($this->session->userdata('user_id'));
         $this->load->view('templates/header');
         $this->load->view('questions/result', $data);

@@ -60,7 +60,6 @@ class Users extends CI_Controller
 
     public function login()
     {
-        echo $this->session->userdata('user_id');
         $data['title'] = 'login';
 
         $this->form_validation->set_rules('email', 'email', 'required');
@@ -114,7 +113,7 @@ class Users extends CI_Controller
         // unset user data
 
         $array_items = array('user_id' => '', 'username' => '', 'logged_in' => '', 'admin' => '');
-        $this->session->unset_userdata($array_items);
+        $this->session->set_userdata($array_items);
 
         // $this->session->unset_userdata('logged_in');
         // $this->session->unset_userdata('user_id');

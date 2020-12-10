@@ -16,55 +16,58 @@
 
 <body data-base="http://localhost/pub_quiz/">
     <!-- if the user is logged in the signout button will display -->
-    <?php if (!empty($this->session->userdata('logged_in'))) : ?>
-        <header>
-            <div class="logo">LOGO</div>
-            <nav>
-                <ul class="navbar">
+    <header>
+        <div class="logo">LOGO</div>
+        <nav>
+            <ul class="navbar">
+                <?php if ($this->session->userdata('logged_in')) : ?>
                     <li><a href="<?php echo base_url(); ?>users/logout">Sign Out</a></li>
                 <?php endif; ?>
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Questions</a></li>
-                <li><a href="#">Team</a></li>
-                <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="menu-toggle">
-                <i class="fa fa-align-justify" aria-hidden="true"></i>
-            </div>
-        </header>
+                <?php if (!$this->session->userdata('logged_in')) : ?>
+                    <!-- <?php echo $this->session->userdata('logged_in') ?> -->
+                    <li><a href="<?php echo base_url(); ?>users/login">Login</a></li>
+                <?php endif; ?>
+                <li><a href="<?php echo base_url() ?>Questions/index">Questions</a></li>
+                <?php if ($this->session->userdata('admin')) : ?>
+                    <li><a href="<?php echo base_url(); ?>Questions/browse">Admin</a></li>
+                <?php endif; ?>
+            </ul>
         </nav>
-
-        
-        <!-- Code for the hamburger activation -->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".menu-toggle").click(function() {
-                    $("nav").toggleClass("active");
-                })
-                // my code for selecting all 
-                // $("nav ul li a").click(function () {
-                //   $("nav ul li a").toggleClass("active");
-                // })
-                ;
-
-            });
-        </script>
-
+        <div class="menu-toggle">
+            <i class="fa fa-align-justify" aria-hidden="true"></i>
         </div>
-        <div class="container">
-            <!-- flash messages -->
-            <?php if ($this->session->flashdata('login_failed')) : ?>
-                <?php echo '<p class="alert alert-success">' . $this->session
-                    ->flashdata('login_failed') . '</p>'; ?>
-            <?php endif; ?>
-            <?php if ($this->session->flashdata('user_registered')) : ?>
-                <?php echo '<p class="alert alert-success">' . $this->session
-                    ->flashdata('user_registered') . '</p>'; ?>
-            <?php endif; ?>
-            <?php if ($this->session->flashdata('user_loggedout')) : ?>
-                <?php echo '<p class="alert alert-success">' . $this->session
-                    ->flashdata('user_loggedout') . '</p>'; ?>
-            <?php endif; ?>
-        </div>
+    </header>
+    </nav>
+
+
+    <!-- Code for the hamburger activation -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".menu-toggle").click(function() {
+                $("nav").toggleClass("active");
+            })
+            // my code for selecting all 
+            // $("nav ul li a").click(function () {
+            //   $("nav ul li a").toggleClass("active");
+            // })
+            ;
+
+        });
+    </script>
+
+    </div>
+    <div class="container">
+        <!-- flash messages -->
+        <?php if ($this->session->flashdata('login_failed')) : ?>
+            <?php echo '<p class="alert alert-success">' . $this->session
+                ->flashdata('login_failed') . '</p>'; ?>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('user_registered')) : ?>
+            <?php echo '<p class="alert alert-success">' . $this->session
+                ->flashdata('user_registered') . '</p>'; ?>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('user_loggedout')) : ?>
+            <?php echo '<p class="alert alert-success">' . $this->session
+                ->flashdata('user_loggedout') . '</p>'; ?>
+        <?php endif; ?>
+    </div>

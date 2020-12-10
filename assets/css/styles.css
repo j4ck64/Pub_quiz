@@ -375,7 +375,7 @@ nav bar taken from <!-- Tutorial https://youtu.be/gt8zOLQ8A0w -->
 	  /* display: none; */
 	  position: absolute;
 	  width: 100%;
-	  height: calc(100vh - 50px);
+	  /* height: calc(100vh - 50px); */
 	  background: #333;
 	  top: 50px;
 	  /*Left -100 places the nav bar out of side */
